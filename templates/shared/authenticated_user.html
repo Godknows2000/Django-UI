@@ -1,0 +1,147 @@
+{% extends 'shared/layout_core.html' %} {% block main %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="m-1 p-4 bg-white boxes shadow-lg rounded text-dark">
+        <h3>2500</h3>
+        <h6>Total Vehicles Violeted Offence</h6>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="m-1 p-4 bg-white boxes shadow-lg rounded text-dark">
+        <h3>2500</h3>
+        <h6>Total vehicles scanned</h6>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="m-1 p-4 bg-white boxes shadow-lg rounded text-dark">
+        <h3>14</h3>
+        <h6>Total Vehicles Detected Today</h6>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div
+        id="tollgateCollectionChartContainer"
+        style="height: 370px; width: 100%"
+      ></div>
+    </div>
+    <div class="col-md-6">
+      <div
+        id="vehicleClassChartContainer"
+        style="height: 370px; width: 100%"
+      ></div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %} {% comment %}
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+  window.onload = function () {
+    // Data for tollgate collection by vehicle type and time intervals
+    var tollgateData = [
+      { label: "00:00 - 03:00", government: 10, ordinary: 30, foreign: 15 },
+      { label: "03:00 - 06:00", government: 15, ordinary: 40, foreign: 20 },
+      { label: "06:00 - 09:00", government: 25, ordinary: 60, foreign: 30 },
+      { label: "09:00 - 12:00", government: 35, ordinary: 70, foreign: 40 },
+      { label: "12:00 - 15:00", government: 30, ordinary: 50, foreign: 25 },
+      { label: "15:00 - 18:00", government: 40, ordinary: 80, foreign: 35 },
+      { label: "18:00 - 21:00", government: 20, ordinary: 45, foreign: 20 },
+      { label: "21:00 - 00:00", government: 15, ordinary: 35, foreign: 15 },
+    ];
+
+    // Data for vehicle classes
+    var vehicleClassData = [
+      { label: "Buses", count: 120 },
+      { label: "Haulage Trucks", count: 80 },
+      { label: "Light Motor Vehicles", count: 200 },
+    ];
+
+    // Creating graph for tollgate collection
+    var tollgateCollectionChart = new CanvasJS.Chart(
+      "tollgateCollectionChartContainer",
+      {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+          text: "Current Tollgate Collection Vehicle Type and Time Intervals Statistics",
+          fontFamily: "Arial",
+          fontSize: 18,
+          padding: 10,
+        },
+        axisY: {
+          title: "Number of Vehicles",
+        },
+        axisX: {
+          title: "Time Intervals",
+        },
+        data: [
+          {
+            type: "column",
+            showInLegend: true,
+            name: "Government",
+            dataPoints: tollgateData.map((data) => ({
+              label: data.label,
+              y: data.government,
+            })),
+          },
+          {
+            type: "column",
+            showInLegend: true,
+            name: "Ordinary",
+            dataPoints: tollgateData.map((data) => ({
+              label: data.label,
+              y: data.ordinary,
+            })),
+          },
+          {
+            type: "column",
+            showInLegend: true,
+            name: "Foreign",
+            dataPoints: tollgateData.map((data) => ({
+              label: data.label,
+              y: data.foreign,
+            })),
+          },
+        ],
+      }
+    );
+    tollgateCollectionChart.render();
+
+    // Creating graph for vehicle classes
+    var vehicleClassChart = new CanvasJS.Chart("vehicleClassChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Total Vehicle Detected Today Class Distribution",
+        fontFamily: "Arial",
+        fontSize: 18,
+        padding: 10,
+      },
+      axisY: {
+        title: "Number of Vehicles",
+        fontFamily: "Arial",
+        fontSize: 15,
+        padding: 10,
+      },
+      axisX: {
+        title: "Vehicle Classes",
+        fontFamily: "Arial",
+        fontSize: 15,
+        padding: 10,
+      },
+      data: [
+        {
+          type: "column",
+          dataPoints: vehicleClassData.map((data) => ({
+            label: data.label,
+            y: data.count,
+          })),
+        },
+      ],
+    });
+    vehicleClassChart.render();
+  };
+</script>
+{% endcomment %} {% endblock %}
